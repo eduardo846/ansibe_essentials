@@ -1,0 +1,15 @@
+# @author: Helvecio Neto <hfneto@br.ibm.com>
+# @copyright: (C) Copyright IBM Corp. 2020. All Rights Reserved.
+# @description: This task sends an email with the specified parameters.
+# @base_version: 2.7.11
+- name: Send Email
+  mail:
+    host: '{{ common.email.host }}'
+    port: '{{ common.email.port }}'
+    secure: '{{ common.email.secure }}'
+    charset: '{{ common.email.charset }}'
+    from: '{{ email.from }}'
+    to: '{{ email.to }}'
+    subject: '{{ email.subject }}'
+    body: '{{ email.body }}'
+  delegate_to: 127.0.0.1

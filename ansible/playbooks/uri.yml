@@ -1,0 +1,25 @@
+# @author: Helvecio Neto <hfneto@br.ibm.com>
+# @copyright: (C) Copyright IBM Corp. 2020. All Rights Reserved.
+# @description: This playbook runs and prints the output structure of a module.
+# @base_version: 2.7.11
+---
+- name: URI Module
+  hosts: '{{ affected_host }}'
+  gather_facts: no
+  ignore_unreachable: yes
+  vars:
+    mail:
+      host: 9.57.199.111
+      port: 25
+      secure: try
+      charset: utf8
+  tasks:
+  - name: Run URI Module
+    uri:
+      url: http://ibm.com
+    register: uri
+    delegate_to: 127.0.0.1
+
+  - name: URI Module Output
+    debug:
+      msg: '{{ uri }}'

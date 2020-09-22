@@ -1,0 +1,26 @@
+# @author: Helvecio Neto <hfneto@br.ibm.com>
+# @copyright: (C) Copyright IBM Corp. 2020. All Rights Reserved.
+# @description: This playbook sends the host's OS info via email.
+# @base_version: 2.7.11
+---
+# Play Declaration
+- name: Send OS Info Email
+  hosts: 'linuxserver01'
+  gather_facts: no
+
+  tasks:
+  - name: Get OS Info
+    command: 'uname -a'
+    changed_when: false
+    register: os_info
+
+  - name: Send Email
+    mail:
+      host: 9.57.199.111 #This is so we can send email through the IBM network.
+      port: 25
+      secure: try
+      charset: utf8
+      from: 'ansible_essentials@br.ibm.com'
+      to: 'yourname@yourdomain.com' #Change to your email address
+      subject: 'OS Info - {{ inventory_hostname }}' #inventory_hostname is automatically set from the inventory.
+      body: '{{ os_info }}'

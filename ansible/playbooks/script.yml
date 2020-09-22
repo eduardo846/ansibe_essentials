@@ -1,0 +1,23 @@
+# @author: Helvecio Neto <hfneto@br.ibm.com>
+# @copyright: (C) Copyright IBM Corp. 2020. All Rights Reserved.
+# @description: This playbook runs and prints the output structure of a module.
+# @base_version: 2.7.11
+---
+- name: Script Module
+  hosts: '{{ affected_host }}'
+  gather_facts: no
+  ignore_unreachable: yes
+
+  tasks:
+  - name: Run Script Module
+    script: >
+      {% if vars.os == "windows"%}
+      ../scripts/windows/get_memory_pct.ps1
+      {% else %}
+      ../scripts/linux/get_memory_pct.sh
+      {% endif %}
+    register: script
+
+  - name: Script Module Output
+    debug:
+      msg: '{{ script }}'

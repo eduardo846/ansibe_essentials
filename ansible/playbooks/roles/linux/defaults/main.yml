@@ -1,0 +1,9 @@
+# @author: Helvecio Neto <hfneto@br.ibm.com>
+# @copyright: (C) Copyright IBM Corp. 2020. All Rights Reserved.
+# @description: This file sets default values for the role "linux".
+# @base_version: 2.7.11
+linux:
+  email:
+    from: 'ansible_essentials_linux@br.ibm.com'
+    to: 'yourname@yourdomain.com' #Change to your email address
+    subject: 'Linux Results - {{ inventory_hostname }}'

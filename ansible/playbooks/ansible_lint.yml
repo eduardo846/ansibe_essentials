@@ -1,0 +1,48 @@
+# @author: Helvecio Neto <hfneto@br.ibm.com>
+# @copyright: (C) Copyright IBM Corp. 2020. All Rights Reserved.
+# @description: This playbook demonstrates some common issues identified by the `ansible-lint` tool.
+# @base_version: 2.7.11
+---
+- name: Ansible Lint
+  hosts: '{{ affected_host }}'
+  gather_facts: no
+  ignore_unreachable: yes
+
+  tasks:
+  #[301] Commands should not change things if nothing needs doing
+  - name: Run Command
+    command: 'uname -a'
+    #changed_when: false
+    register: command
+
+  #[601] Don't compare to literal True/False
+  - name: Set Fact
+    set_fact:
+      connection_status: "Failed"
+    when: command.unreachable == true
+    #when: command.unreachable is defined and command.unreachable
+
+  #[301] Commands should not change things if nothing needs doing
+  #[306] Shells that use pipes should set the pipefail option
+  - name: Run Shell Module
+    shell: ls /tmp | head -1
+    #shell: set -o pipefail && ls /tmp | head -1
+    args:
+      executable: /bin/bash
+    #changed_when: false
+    register: shell
+
+  #[301] Commands should not change things if nothing needs doing
+  #[302] rm used in place of argument state=absent to file module
+  - name: Remove Temp Files
+    command: rm -rf /tmp/testdir
+    #file:
+    #  path: /tmp/testdir
+    #  state: absent
+    register: remove_files
+
+  #Couldn't parse task at ansible/playbooks/ansible_lint.yml:44 (no action detected in task. This often indicates a misspelled module name, or incorrect module path.
+  - name: Mistyped Task
+    deubg:
+    #debug:
+      msg: Hello World!

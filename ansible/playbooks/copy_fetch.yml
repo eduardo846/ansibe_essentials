@@ -1,0 +1,31 @@
+# @author: Helvecio Neto <hfneto@br.ibm.com>
+# @copyright: (C) Copyright IBM Corp. 2020. All Rights Reserved.
+# @description: This playbook runs and prints the output structure of a module.
+# @base_version: 2.7.11
+---
+- name: Copy and Fetch Modules
+  hosts: '{{ affected_host }}'
+  gather_facts: no
+  ignore_unreachable: yes
+
+  tasks:
+  - name: Create Local File
+    file:
+      path: /tmp/testfile
+      state: touch #creates file if doesn't exist.
+    delegate_to: 127.0.0.1
+
+  - name: Copy File to Target Host
+    copy:
+      src: /tmp/testfile #Source is a local path.
+      dest: /tmp/testfile #Destination is a remote path.
+
+  - name: Fech Remote File To Local Directory
+    fetch:
+      src: /tmp/testfile #Source is remote.
+      dest: /tmp #Destination is a local directory.
+    register: file
+
+  - name: Print Received File Info
+    debug:
+      msg: '{{ file }}'

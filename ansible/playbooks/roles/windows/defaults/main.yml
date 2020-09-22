@@ -1,0 +1,9 @@
+# @author: Helvecio Neto <hfneto@br.ibm.com>
+# @copyright: (C) Copyright IBM Corp. 2020. All Rights Reserved.
+# @description: This file sets default values for the role "windows".
+# @base_version: 2.7.11
+windows:
+  email:
+    from: 'ansible_essentials_windows@br.ibm.com'
+    to: 'yourname@yourdomain.com' #Change to your email address
+    subject: 'Windows Results - {{ inventory_hostname }}'

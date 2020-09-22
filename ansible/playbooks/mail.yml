@@ -1,0 +1,32 @@
+# @author: Helvecio Neto <hfneto@br.ibm.com>
+# @copyright: (C) Copyright IBM Corp. 2020. All Rights Reserved.
+# @description: This playbook runs and prints the output structure of a module.
+# @base_version: 2.7.11
+---
+- name: Mail Module
+  hosts: '{{ affected_host }}'
+  gather_facts: no
+  ignore_unreachable: yes
+  vars:
+    mail:
+      host: 9.57.199.111
+      port: 25
+      secure: try
+      charset: utf8
+  tasks:
+  - name: Run Mail Module
+    mail:
+      host: '{{ mail.host }}'
+      port: '{{ mail.port }}'
+      secure: '{{ mail.secure }}'
+      charset: '{{ mail.charset }}'
+      from: 'ansible_essentials@br.ibm.com'
+      to: 'yourname@yourdomain.com' #Change to your email address
+      subject: 'This is a test email for {{ inventory_hostname }}'
+      body: 'This is a test email body'
+    register: mail
+    delegate_to: 127.0.0.1
+
+  - name: Mail Module Output
+    debug:
+      msg: '{{ mail }}'
